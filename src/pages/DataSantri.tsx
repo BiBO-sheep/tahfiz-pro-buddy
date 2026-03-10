@@ -11,13 +11,14 @@ import { Plus, Pencil, Trash2, Search } from 'lucide-react';
 export default function DataSantri() {
   const { santriList, setSantriList, ustadzList } = useAppContext();
   const [filterKelas, setFilterKelas] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingSantri, setEditingSantri] = useState<Santri | null>(null);
   const [form, setForm] = useState<Partial<Santri>>({});
 
-  const filtered = filterKelas === 'all'
-    ? santriList
-    : santriList.filter(s => s.kelas === Number(filterKelas));
+  const filtered = santriList
+    .filter(s => filterKelas === 'all' || s.kelas === Number(filterKelas))
+    .filter(s => s.nama.toLowerCase().includes(searchQuery.toLowerCase()));
 
   const openNew = () => {
     setEditingSantri(null);
