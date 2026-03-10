@@ -67,7 +67,16 @@ export default function DataSantri() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h1 className="font-heading text-2xl font-bold">Data Santri</h1>
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center flex-wrap">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Cari nama santri..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="pl-9 w-48"
+            />
+          </div>
           <Select value={filterKelas} onValueChange={setFilterKelas}>
             <SelectTrigger className="w-36">
               <SelectValue placeholder="Filter Kelas" />
