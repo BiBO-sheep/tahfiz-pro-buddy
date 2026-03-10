@@ -34,7 +34,7 @@ export function AppSidebar() {
       <SidebarContent>
         <div className={`p-4 ${collapsed ? 'px-2' : 'px-4'}`}>
           <h2 className="font-heading text-lg font-bold text-foreground truncate">
-            {collapsed ? "DI" : settings.nama}
+            {collapsed ? "ET" : settings.nama}
           </h2>
           {!collapsed && (
             <p className="text-xs text-muted-foreground mt-1">Pencatatan Tahfidz</p>
