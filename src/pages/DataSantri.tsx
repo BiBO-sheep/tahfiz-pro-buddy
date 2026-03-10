@@ -6,7 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { Plus, Pencil, Trash2, Search } from 'lucide-react';
+import { Plus, Pencil, Trash2, Search, Download } from 'lucide-react';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export default function DataSantri() {
   const { santriList, setSantriList, ustadzList } = useAppContext();
@@ -63,6 +65,28 @@ export default function DataSantri() {
     toast.success('Data santri dihapus');
   };
 
+  const handleExportPdf = () => {
+    const doc = new jsPDF({ orientation: 'landscape' });
+    const title = filterKelas === 'all' ? 'Data Santri - Semua Kelas' : `Data Santri - Kelas ${filterKelas}`;
+    doc.setFontSize(16);
+    doc.text(title, 14, 18);
+    doc.setFontSize(10);
+    doc.text(`Dicetak: ${new Date().toLocaleDateString('id-ID')}`, 14, 25);
+
+    autoTable(doc, {
+      startY: 30,
+      head: [['No', 'Nama Santri', 'JK', 'Kelas', 'Halaqah', 'NISN', 'Ustadz', 'Orang Tua', 'WA']],
+      body: filtered.map((s, i) => [
+        i + 1, s.nama, s.jenisKelamin, s.kelas, s.kelasHalaqah, s.nisn, s.ustadzPengampu, s.orangTua, s.waOrangTua,
+      ]),
+      styles: { fontSize: 8 },
+      headStyles: { fillColor: [74, 108, 85] },
+    });
+
+    doc.save('data-santri.pdf');
+    toast.success('PDF berhasil diunduh');
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
@@ -88,6 +112,7 @@ export default function DataSantri() {
               ))}
             </SelectContent>
           </Select>
+          <Button onClick={handleExportPdf} size="sm" variant="outline"><Download className="h-4 w-4 mr-1" /> PDF</Button>
           <Button onClick={openNew} size="sm"><Plus className="h-4 w-4 mr-1" /> Tambah</Button>
         </div>
       </div>
