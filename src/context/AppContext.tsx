@@ -22,7 +22,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<PesantrenSettings>(() => {
     const saved = localStorage.getItem('pesantren-settings');
     return saved ? JSON.parse(saved) : {
-      nama: 'Pesantren Darul Ilmi',
+      nama: 'EL Tahfidz',
       logo: '',
       theme: '',
     };
